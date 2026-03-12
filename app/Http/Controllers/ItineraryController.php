@@ -155,7 +155,8 @@ class ItineraryController extends Controller
         in: 'path',
         required: true,
         schema: new OA\Schema(type: 'integer')
-    )]    #[OA\RequestBody(
+    )]
+    #[OA\RequestBody(
         required: true,
         content: new OA\JsonContent(
             required: ['title', 'category', 'duration', 'image', 'destinations'],
@@ -253,6 +254,22 @@ class ItineraryController extends Controller
             'data' => $itinerary->load('destinations.activities')
         ]);
     }
+
+    #[OA\Delete(
+        path: '/api/itineraries/{id}',
+        summary: 'Delete an itinerary',
+        security: [['sanctum' => []]]
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        required: true,
+        schema: new OA\Schema(type: 'integer')
+    )]
+    #[OA\Response(response: 200, description: 'Itinerary deleted successfully')]
+    #[OA\Response(response: 401, description: 'Unauthenticated')]
+    #[OA\Response(response: 403, description: 'Unauthorized')]
+    #[OA\Response(response: 404, description: 'Itinerary not found')]
 
     public function destroy($id)
     {
