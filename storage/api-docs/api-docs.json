@@ -89,6 +89,38 @@
                     }
                 ]
             }
+        },
+        "/api/itineraries": {
+            "get": {
+                "summary": "Display All itineraries",
+                "operationId": "86675d12475f84f785e7563fa8b8a0d9",
+                "responses": {
+                    "201": {
+                        "description": "Displaying All the itineraries"
+                    }
+                }
+            }
+        },
+        "/api/itineraries/{id}": {
+            "get": {
+                "summary": "Show an itinerary",
+                "operationId": "491c9ddb477072a43a407e3d306bd81c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Showing the itinerary"
+                    }
+                }
+            }
         }
     },
     "components": {

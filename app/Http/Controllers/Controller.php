@@ -12,6 +12,7 @@ use OpenApi\Attributes as OA;
     description: "Enter your Sanctum token (e.g. 1|abcdef...)"
 )]
 
+
 abstract class Controller
 {
     //

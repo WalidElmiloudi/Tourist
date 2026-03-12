@@ -5,10 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Attributes as OA;
 use App\Models\Itinerary;
 
 class ItineraryController extends Controller
 {
+
+
+    #[OA\Get(path: '/api/itineraries', summary: 'Display All itineraries')]
+    #[OA\Response(response: 201, description: 'Displaying All the itineraries')]
+
     public function index(Request $request)
     {
         $query = Itinerary::query();
@@ -32,6 +38,10 @@ class ItineraryController extends Controller
 
         return response()->json($itineraries);
     }
+
+    #[OA\Get(path: '/api/itineraries/{id}', summary: 'Show an itinerary')]
+    #[OA\Parameter(name: 'id', in: 'path', required: true, schema: new OA\Schema(type: 'integer'))]
+    #[OA\Response(response: 201, description: 'Showing the itinerary')]
 
     public function show($id)
     {

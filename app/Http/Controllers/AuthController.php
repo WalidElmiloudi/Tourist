@@ -11,11 +11,11 @@ use OpenApi\Attributes as OA;
 class AuthController extends Controller
 {
 
-    // #[OA\Post(path: '/api/register', summary: 'Register a new user')]
-    // #[OA\Parameter(name: 'name', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
-    // #[OA\Parameter(name: 'email', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
-    // #[OA\Parameter(name: 'password', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
-    // #[OA\Response(response: 201, description: 'User registered successfully')]
+    #[OA\Post(path: '/api/register', summary: 'Register a new user')]
+    #[OA\Parameter(name: 'name', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
+    #[OA\Parameter(name: 'email', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
+    #[OA\Parameter(name: 'password', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
+    #[OA\Response(response: 201, description: 'User registered successfully')]
 
     public function register(Request $request)
     {
@@ -40,10 +40,10 @@ class AuthController extends Controller
         ]);
     }
 
-    // #[OA\Post(path: '/api/login', summary: 'Log a user in')]
-    // #[OA\Parameter(name: 'email', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
-    // #[OA\Parameter(name: 'password', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
-    // #[OA\Response(response: 201, description: 'User logged in successfully')]
+    #[OA\Post(path: '/api/login', summary: 'Log a user in')]
+    #[OA\Parameter(name: 'email', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
+    #[OA\Parameter(name: 'password', in: 'query', required: true, schema: new OA\Schema(type: 'string'))]
+    #[OA\Response(response: 201, description: 'User logged in successfully')]
 
 
     public function login(Request $request)
@@ -65,27 +65,25 @@ class AuthController extends Controller
         ]);
     }
 
-// #[OA\Post(
-//     path: '/api/logout', 
-//     summary: 'Logging out a user',
-//     security: [['sanctum' => []]]
-// )]
-// #[OA\Response(response: 200, description: 'User logged out successfully')]
-// #[OA\Response(response: 401, description: 'Unauthenticated')]
+    #[OA\Post(
+        path: '/api/logout',
+        summary: 'Logging out a user',
+        security: [['sanctum' => []]]
+    )]
+    #[OA\Response(response: 200, description: 'User logged out successfully')]
+    #[OA\Response(response: 401, description: 'Unauthenticated')]
 
-public function logout(Request $request)
-{
-    $user = $request->user();
+    public function logout(Request $request)
+    {
+        $user = $request->user();
 
-    // Check if user exists
-    if ($user) {
-        $user->currentAccessToken()->delete();
-        return response()->json(['message' => 'Logged out successfully'], 200);
+        if ($user) {
+            $user->currentAccessToken()->delete();
+            return response()->json(['message' => 'Logged out successfully'], 200);
+        }
+
+        return response()->json(['message' => 'Not authenticated'], 401);
     }
-
-    // If no user, return a clean JSON error instead of crashing
-    return response()->json(['message' => 'Not authenticated'], 401);
-}
 
     public function profile(Request $request)
     {
