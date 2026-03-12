@@ -8,7 +8,8 @@ class Destination extends Model
 {
     protected $fillable = [
         'name',
-        'accommodation'
+        'accommodation',
+        'itinerary_id',
     ];
 
     public function itinerary()
