@@ -5,6 +5,158 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/api/destinations/{destination}/activities": {
+            "get": {
+                "summary": "Displaying the activities under a destination",
+                "operationId": "c5f431d6b8df02d085d4d8d08d2bfe5f",
+                "parameters": [
+                    {
+                        "name": "destination",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "dispalying all the activities of destination succesfully"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create an activity for a destination",
+                "operationId": "293a94148c82d32859ed70415b32b192",
+                "parameters": [
+                    {
+                        "name": "destination",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "description"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Activity Created Succesfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/activities/{activity}": {
+            "put": {
+                "summary": "Update an activity",
+                "operationId": "bda87636e0bb8d2290b9a2280abcdbd5",
+                "parameters": [
+                    {
+                        "name": "activity",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "description"
+                                ],
+                                "properties": {
+                                    "description": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Activity Updated Succesfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "402": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Activity Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Delete an activity",
+                "operationId": "e25deaa842b7124f291bd5245fcab496",
+                "parameters": [
+                    {
+                        "name": "activity",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Activity Deleted Succesfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "402": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Activity Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/register": {
             "post": {
                 "summary": "Register a new user",
