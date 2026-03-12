@@ -90,6 +90,198 @@
                 ]
             }
         },
+        "/api/itineraries/{itinerary}/destinations": {
+            "get": {
+                "summary": "Display All itinerary's destinations",
+                "operationId": "bc9a72c0e48b729881924f0ed53e6148",
+                "parameters": [
+                    {
+                        "name": "itinerary",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Display All itinerary's destinations"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Create an itinerary's Destination",
+                "operationId": "a29555987cbf4c37031dba4fcd332957",
+                "parameters": [
+                    {
+                        "name": "itinerary",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "accommodation",
+                                    "activities"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "accommodation": {
+                                        "type": "string"
+                                    },
+                                    "activities": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "description"
+                                            ],
+                                            "properties": {
+                                                "description": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "minItems": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Creating an itinerary's Destination"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/destinations/{destination}": {
+            "put": {
+                "summary": "Update an itinerary's Destination",
+                "operationId": "7f0c2e086cc69db2c8ceef7cf1b52b5c",
+                "parameters": [
+                    {
+                        "name": "destination",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "accommodation",
+                                    "activities"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "accommodation": {
+                                        "type": "string"
+                                    },
+                                    "activities": {
+                                        "type": "array",
+                                        "items": {
+                                            "required": [
+                                                "description"
+                                            ],
+                                            "properties": {
+                                                "description": {
+                                                    "type": "string"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "minItems": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Destination updated successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Destination not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            },
+            "delete": {
+                "summary": "Delete an itinerary's Destination",
+                "operationId": "3df3df9a2620d3e02703723f904494c9",
+                "parameters": [
+                    {
+                        "name": "destination",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Destination Deleted successfully"
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "403": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "Destination not found"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/itineraries": {
             "get": {
                 "summary": "Display All itineraries",
