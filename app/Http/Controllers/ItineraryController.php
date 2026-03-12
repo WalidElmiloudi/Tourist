@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Itinerary;
 
 class ItineraryController extends Controller
@@ -110,7 +111,6 @@ class ItineraryController extends Controller
 
         $itinerary = Itinerary::findOrFail($id);
 
-        // ownership check
         if ($itinerary->user_id !== auth()->id()) {
             return response()->json([
                 'message' => 'Unauthorized'
@@ -147,6 +147,23 @@ class ItineraryController extends Controller
         return response()->json([
             'message' => 'Itinerary updated successfully',
             'data' => $itinerary->load('destinations.activities')
+        ]);
+    }
+
+    public function destroy($id)
+    {
+        $itinerary = Itinerary::findOrFail($id);
+
+        if ($itinerary->user_id !== auth()->id()) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
+        $itinerary->delete();
+
+        return response()->json([
+            'message' => 'Itinerary deleted'
         ]);
     }
 }
