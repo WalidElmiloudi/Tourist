@@ -91,4 +91,62 @@ class ItineraryController extends Controller
             'itinerary' => $itinerary->load('destinations')
         ], 201);
     }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'title' => 'required',
+            'category' => 'required',
+            'duration' => 'required|integer',
+            'image' => 'required',
+
+            'destinations' => 'required|array|min:2',
+            'destinations.*.name' => 'required',
+            'destinations.*.accommodation' => 'required',
+
+            'destinations.*.activities' => 'required|array|min:1',
+            'destinations.*.activities.*.description' => 'required'
+        ]);
+
+        $itinerary = Itinerary::findOrFail($id);
+
+        // ownership check
+        if ($itinerary->user_id !== auth()->id()) {
+            return response()->json([
+                'message' => 'Unauthorized'
+            ], 403);
+        }
+
+        DB::transaction(function () use ($request, $itinerary) {
+
+            $itinerary->update([
+                'title' => $request->title,
+                'category' => $request->category,
+                'duration' => $request->duration,
+                'image' => $request->image
+            ]);
+
+            $itinerary->destinations()->delete();
+
+            foreach ($request->destinations as $destinationData) {
+
+                $destination = $itinerary->destinations()->create([
+                    'name' => $destinationData['name'],
+                    'accommodation' => $destinationData['accommodation']
+                ]);
+
+                foreach ($destinationData['activities'] as $activityData) {
+
+                    $destination->activities()->create([
+                        'description' => $activityData['description']
+                    ]);
+                }
+            }
+        });
+
+        return response()->json([
+            'message' => 'Itinerary updated successfully',
+            'data' => $itinerary->load('destinations.activities')
+        ]);
+    }
 }
