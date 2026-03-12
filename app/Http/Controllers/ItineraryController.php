@@ -19,17 +19,14 @@ class ItineraryController extends Controller
     {
         $query = Itinerary::query();
 
-        // Filter by category
         if ($request->has('category')) {
             $query->where('category', $request->category);
         }
 
-        // Filter by duration
         if ($request->has('duration')) {
             $query->where('duration', '<=', $request->duration);
         }
 
-        // Search by title
         if ($request->has('keyword')) {
             $query->where('title', 'like', '%' . $request->keyword . '%');
         }
@@ -49,6 +46,51 @@ class ItineraryController extends Controller
 
         return response()->json($itinerary);
     }
+
+    #[OA\Post(
+        path: '/api/itineraries',
+        summary: 'Create an itinerary',
+        security: [['sanctum' => []]]
+    )]
+    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            required: ['title', 'category', 'duration', 'image', 'destinations'],
+            properties: [
+                new OA\Property(property: 'title', type: 'string'),
+                new OA\Property(property: 'category', type: 'string'),
+                new OA\Property(property: 'duration', type: 'integer'),
+                new OA\Property(property: 'image', type: 'string'),
+                new OA\Property(
+                    property: 'destinations',
+                    type: 'array',
+                    minItems: 2,
+                    items: new OA\Items(
+                        type: 'object',
+                        required: ['name', 'accommodation', 'activities'],
+                        properties: [
+                            new OA\Property(property: 'name', type: 'string'),
+                            new OA\Property(property: 'accommodation', type: 'string'),
+                            new OA\Property(
+                                property: 'activities',
+                                type: 'array',
+                                minItems: 1,
+                                items: new OA\Items(
+                                    type: 'object',
+                                    required: ['description'],
+                                    properties: [
+                                        new OA\Property(property: 'description', type: 'string')
+                                    ]
+                                )
+                            )
+                        ]
+                    )
+                )
+            ]
+        )
+    )]
+    #[OA\Response(response: 201, description: 'Creating an itinerary')]
+    #[OA\Response(response: 401, description: 'Unauthenticated')]
 
     public function store(Request $request)
     {
@@ -102,6 +144,58 @@ class ItineraryController extends Controller
             'itinerary' => $itinerary->load('destinations')
         ], 201);
     }
+
+    #[OA\Put(
+        path: '/api/itineraries/{id}',
+        summary: 'Update an itinerary',
+        security: [['sanctum' => []]]
+    )]
+    #[OA\Parameter(
+        name: 'id',
+        in: 'path',
+        required: true,
+        schema: new OA\Schema(type: 'integer')
+    )]    #[OA\RequestBody(
+        required: true,
+        content: new OA\JsonContent(
+            required: ['title', 'category', 'duration', 'image', 'destinations'],
+            properties: [
+                new OA\Property(property: 'title', type: 'string'),
+                new OA\Property(property: 'category', type: 'string'),
+                new OA\Property(property: 'duration', type: 'integer'),
+                new OA\Property(property: 'image', type: 'string'),
+                new OA\Property(
+                    property: 'destinations',
+                    type: 'array',
+                    minItems: 2,
+                    items: new OA\Items(
+                        type: 'object',
+                        required: ['name', 'accommodation', 'activities'],
+                        properties: [
+                            new OA\Property(property: 'name', type: 'string'),
+                            new OA\Property(property: 'accommodation', type: 'string'),
+                            new OA\Property(
+                                property: 'activities',
+                                type: 'array',
+                                minItems: 1,
+                                items: new OA\Items(
+                                    type: 'object',
+                                    required: ['description'],
+                                    properties: [
+                                        new OA\Property(property: 'description', type: 'string')
+                                    ]
+                                )
+                            )
+                        ]
+                    )
+                )
+            ]
+        )
+    )]
+    #[OA\Response(response: 200, description: 'Itinerary updated successfully')]
+    #[OA\Response(response: 401, description: 'Unauthenticated')]
+    #[OA\Response(response: 403, description: 'Unauthorized')]
+    #[OA\Response(response: 404, description: 'Itinerary not found')]
 
     public function update(Request $request, $id)
     {
