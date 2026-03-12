@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ItineraryController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +13,8 @@ Route::get('/itineraries', [ItineraryController::class, 'index']);
 Route::get('/itineraries/{id}', [ItineraryController::class, 'show']);
 
 Route::get('/itineraries/{itinerary}/destinations', [DestinationController::class, 'index']);
+
+Route::get('/destinations/{destination}/activities', [ActivityController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
@@ -24,5 +27,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/itineraries/{itinerary}/destinations', [DestinationController::class, 'store']);
     Route::put('/destinations/{destination}', [DestinationController::class, 'update']);
     Route::delete('/destinations/{destination}', [DestinationController::class, 'destroy']);
-});
 
+    Route::post('/destinations/{destination}/activities', [ActivityController::class, 'store']);
+    Route::put('/activities/{activity}', [ActivityController::class, 'update']);
+    Route::delete('/activities/{activity}', [ActivityController::class, 'destroy']);
+});

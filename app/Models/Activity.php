@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model
 {
     protected $fillable = [
-        'description'
+        'description',
+        'destination_id',
     ];
 
     public function destination()
