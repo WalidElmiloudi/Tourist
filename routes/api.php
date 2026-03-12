@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\ItineraryController;
 use Illuminate\Support\Facades\Route;
@@ -31,4 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/destinations/{destination}/activities', [ActivityController::class, 'store']);
     Route::put('/activities/{activity}', [ActivityController::class, 'update']);
     Route::delete('/activities/{activity}', [ActivityController::class, 'destroy']);
+
+    Route::post('/favorites/{itinerary}', [FavoriteController::class, 'store']);
+    Route::delete('/favorites/{itinerary}', [FavoriteController::class, 'destroy']);
+    Route::get('/favorites', [FavoriteController::class, 'index']);
 });

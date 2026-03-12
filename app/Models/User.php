@@ -46,4 +46,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function favoriteItineraries()
+    {
+        return $this->belongsToMany(Itinerary::class, 'favorites')->withTimestamps();
+    }
 }

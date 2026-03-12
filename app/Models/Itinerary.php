@@ -24,4 +24,8 @@ class Itinerary extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites')->withTimestamps();
+    }
 }
